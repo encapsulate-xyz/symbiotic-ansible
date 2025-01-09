@@ -1,0 +1,45 @@
+---
+- name: Ensure tmp directory exists
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}"
+    state: directory
+    mode: "1777"
+
+- name: Clone the repository to /tmp
+  ansible.builtin.git:
+    repo: "{{ symbiotic.kalypso.source_url }}"
+    dest: "{{ tmp_dir }}/{{ project }}"
+    version: "{{ symbiotic.kalypso.version }}"
+    force: true
+
+- name: Build binary
+  ansible.builtin.shell: cargo build --release
+  args:
+    chdir: "{{ tmp_dir }}/{{ project }}"
+    executable: /bin/bash
+    creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
+  when: mode == "cpu"
+
+- name: Build binary to support gpu
+  ansible.builtin.shell: cargo build --release --features gpu
+  args:
+    chdir: "{{ tmp_dir }}/{{ project }}"
+    executable: /bin/bash
+    creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
+  when: mode == "gpu"
+
+- name: Copy the built binary to the target directory
+  ansible.builtin.copy:
+    src: "{{ tmp_dir }}/{{ project }}/target/release/{{ kalypso_service_default_binary_name }}"
+    dest: "{{ kalypso_bin_dir }}/{{ service_identifier }}"
+    mode: "0755"
+    owner: root
+    group: root
+    remote_src: true
+  notify:
+    - Restart service
+
+- name: Clean up the temporary repository directory
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/{{ project }}"
+    state: absent

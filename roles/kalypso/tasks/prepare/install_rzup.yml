@@ -1,0 +1,27 @@
+---
+- name: Download rzup installer
+  ansible.builtin.get_url:
+    url: https://risczero.com/install
+    dest: /tmp/rzup-installer.sh
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install rzup
+  ansible.builtin.shell: |
+    bash /tmp/rzup-installer.sh
+  args:
+    creates: "{{ ansible_env.HOME }}/.risc0"
+    executable: /bin/bash
+
+- name: Install C++ toolchain
+  ansible.builtin.shell: |
+    {{ ansible_env.HOME }}/.risc0/bin/rzup install cpp
+  args:
+    executable: /bin/bash
+  changed_when: false
+
+- name: Clean up downloaded package
+  ansible.builtin.file:
+    path: /tmp/rzup-installer.sh
+    state: absent
