@@ -1,0 +1,22 @@
+---
+- name: Install Dependencies
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - build-essential
+    - curl
+    - git
+    - cargo
+    - rustup
+
+- name: Include install_rzup task
+  ansible.builtin.include_tasks: install_rzup.yml
+
+- name: Include install_docker task
+  ansible.builtin.include_tasks: install_docker.yml
+
+- name: Include install_cuda task
+  ansible.builtin.include_tasks: install_cuda.yml
+  when: mode == "gpu"

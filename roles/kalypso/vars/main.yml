@@ -1,0 +1,8 @@
+---
+# maintains file name, binary names, and anything which is not a directory or path
+
+# Environment file names
+kalypso_environment_secrets_file_name: "{{ service_identifier }}.secrets.env"
+kalypso_environment_general_file_name: "{{ service_identifier }}.env"
+
+kalypso_service_default_binary_name: kalypso-attestation-prover

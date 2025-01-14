@@ -1,0 +1,18 @@
+---
+# maintains directories and paths
+kalypso_home_dir: /opt/{{ service_identifier }}
+
+kalypso_bin_dir: "{{ kalypso_home_dir }}/bin"
+kalypso_env_dir: "{{ kalypso_home_dir }}/env"
+kalypso_log_dir: "{{ kalypso_home_dir }}/log"
+
+kalypso_directories:
+  - "{{ kalypso_home_dir }}"
+  - "{{ kalypso_bin_dir }}"
+  - "{{ kalypso_env_dir }}"
+  - "{{ kalypso_log_dir }}"
+
+kalypso_log_file_path: "{{ kalypso_log_dir }}/{{ service_identifier }}.log"
+
+kalypso_environment_secrets_file_path: "{{ kalypso_env_dir }}/{{ kalypso_environment_secrets_file_name }}"
+kalypso_environment_general_file_path: "{{ kalypso_env_dir }}/{{ kalypso_environment_general_file_name }}"

@@ -1,0 +1,13 @@
+---
+kalypso_ufw_rules:
+  - port: "{{ symbiotic.kalypso.ports.prover_port }}"
+    proto: tcp
+    rule: allow
+    from: any
+    comment: prover_port
+
+  - port: "{{ symbiotic.kalypso.ports.metrics_port }}"
+    proto: tcp
+    rule: allow
+    from: "{{ monitor_server_dns }}"
+    comment: metrics_port
