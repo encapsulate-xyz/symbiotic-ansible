@@ -18,6 +18,8 @@
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
     creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
   when: mode == "cpu"
 
 - name: Build binary to support gpu
@@ -26,6 +28,8 @@
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
     creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
   when: mode == "gpu"
 
 - name: Copy the built binary to the target directory
@@ -44,13 +48,13 @@
     path: "{{ tmp_dir }}/{{ project }}"
     state: absent
 
-- name: Clean rzup
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.risc0"
-    state: absent
+# - name: Clean rzup
+#   ansible.builtin.file:
+#     path: "{{ ansible_env.HOME }}/.risc0"
+#     state: absent
 
-- name: Remove rzup PATH addition
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_env.HOME }}/.bashrc"
-    regexp: '^export PATH="\$PATH:/root/.risc0/bin"$'
-    state: absent
+# - name: Remove rzup PATH addition
+#   ansible.builtin.lineinfile:
+#     path: "{{ ansible_env.HOME }}/.bashrc"
+#     regexp: '^export PATH="\$PATH:/root/.risc0/bin"$'
+#     state: absent

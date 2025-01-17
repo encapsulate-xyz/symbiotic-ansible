@@ -19,7 +19,7 @@
     {{ ansible_env.HOME }}/.risc0/bin/rzup install cpp
   args:
     executable: /bin/bash
-  changed_when: false
+    creates: "{{ ansible_env.HOME }}/.risc0/cpp"
 
 - name: Clean up downloaded package
   ansible.builtin.file:
