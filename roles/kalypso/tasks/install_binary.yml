@@ -18,6 +18,8 @@
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
     creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
   when: mode == "cpu"
 
 - name: Build binary to support gpu
@@ -26,6 +28,8 @@
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
     creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
   when: mode == "gpu"
 
 - name: Copy the built binary to the target directory
