@@ -12,14 +12,6 @@
     version: "{{ symbiotic.kalypso.version }}"
     force: true
 
-- name: Run rzup install
-  ansible.builtin.shell: |
-    {{ ansible_env.HOME }}/.risc0/bin/rzup install
-  args:
-    chdir: "{{ tmp_dir }}/{{ project }}"
-    executable: /bin/bash
-  changed_when: false
-
 - name: Build binary
   ansible.builtin.shell: cargo build --release
   args:

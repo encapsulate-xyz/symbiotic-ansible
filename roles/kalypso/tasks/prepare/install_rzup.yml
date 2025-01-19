@@ -14,6 +14,13 @@
     creates: "{{ ansible_env.HOME }}/.risc0"
     executable: /bin/bash
 
+- name: Run rzup install
+  ansible.builtin.shell: |
+    {{ ansible_env.HOME }}/.risc0/bin/rzup install
+  args:
+    executable: /bin/bash
+  changed_when: false
+
 - name: Install C++ toolchain
   ansible.builtin.shell: |
     {{ ansible_env.HOME }}/.risc0/bin/rzup install cpp
