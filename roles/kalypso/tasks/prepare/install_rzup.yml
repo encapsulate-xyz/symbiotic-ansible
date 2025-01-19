@@ -20,6 +20,7 @@
   args:
     executable: /bin/bash
   changed_when: false
+  ignore_errors: true
 
 - name: Install C++ toolchain
   ansible.builtin.shell: |
