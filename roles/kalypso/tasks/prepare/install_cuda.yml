@@ -18,6 +18,12 @@
     state: present
     update_cache: true
 
+- name: Install nvidia drivers
+  ansible.builtin.apt:
+    name: nvidia-open
+    state: present
+    update_cache: true
+
 - name: Clean up downloaded package
   ansible.builtin.file:
     path: /tmp/cuda-keyring.deb

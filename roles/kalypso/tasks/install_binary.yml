@@ -29,7 +29,7 @@
     executable: /bin/bash
     creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
   environment:
-    PATH: "{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
+    PATH: "{{ ansible_env.HOME }}/.risc0/bin:/usr/local/cuda/bin:{{ ansible_env.PATH }}"
   when: mode == "gpu"
 
 - name: Copy the built binary to the target directory
