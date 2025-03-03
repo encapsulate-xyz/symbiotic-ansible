@@ -20,3 +20,7 @@
 - name: Include install_cuda task
   ansible.builtin.include_tasks: install_cuda.yml
   when: mode == "gpu"
+
+- name: Notify user to reboot for NVIDIA drivers activation
+  ansible.builtin.debug:
+    msg: "Reboot your machine to activate the NVIDIA drivers."

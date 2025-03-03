@@ -1,0 +1,19 @@
+[Unit]
+Description={{ service_identifier }}
+
+[Service]
+User={{ service_identifier }}
+Group={{ service_identifier }}
+WorkingDirectory={{ kalypso_home_dir }}
+EnvironmentFile={{ kalypso_env_dir }}/{{ service_identifier }}.env
+EnvironmentFile={{ kalypso_env_dir }}/{{ service_identifier }}.secrets.env
+ExecStart={{ kalypso_bin_dir }}/{{ service_identifier }}
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ kalypso_log_file_path }}
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+---
+- name: Prepare for Kalypso node
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Include prepare role
+      ansible.builtin.include_role:
+        name: prepare
