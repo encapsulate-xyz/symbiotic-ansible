@@ -3,7 +3,7 @@
 kalypso_home_dir: /opt/{{ service_identifier }}
 
 kalypso_bin_dir: "{{ kalypso_home_dir }}/bin"
-kalypso_env_dir: "{{ kalypso_home_dir }}/env"
+kalypso_env_dir: "{{ kalypso_home_dir }}/environment"
 kalypso_log_dir: "{{ kalypso_home_dir }}/log"
 
 kalypso_directories:
