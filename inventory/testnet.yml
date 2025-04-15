@@ -8,3 +8,10 @@ all:
       hosts:
         kalypso.symbiotic.testnet.encapsulate.xyz:
           type: kalypso
+
+        capx_node_host:
+          ansible_host: capx.symbiotic.testnet.encapsulate.xyz
+          type: capx_node
+        capx_validation_host:
+          ansible_host: capx.symbiotic.testnet.encapsulate.xyz
+          type: capx_validation
