@@ -1,0 +1,23 @@
+---
+# maintains directories and paths
+capx_node_home_dir: /opt/{{ service_identifier }}
+
+capx_node_bin_dir: "{{ capx_node_home_dir }}/bin"
+capx_node_data_dir: "{{ capx_node_home_dir }}/data"
+capx_node_env_dir: "{{ capx_node_home_dir }}/environment"
+capx_node_log_dir: "{{ capx_node_home_dir }}/log"
+
+capx_node_directories:
+  - "{{ capx_node_home_dir }}"
+  - "{{ capx_node_bin_dir }}"
+  - "{{ capx_node_data_dir }}"
+  - "{{ capx_node_env_dir }}"
+  - "{{ capx_node_log_dir }}"
+
+capx_node_log_file_path: "{{ capx_node_log_dir }}/{{ service_identifier }}.log"
+
+capx_node_environment_secrets_file_path: "{{ capx_node_env_dir }}/{{ capx_node_environment_secrets_file_name }}"
+capx_node_environment_general_file_path: "{{ capx_node_env_dir }}/{{ capx_node_environment_general_file_name }}"
+
+capx_node_nodejs_dir: "{{ nvm.path }}/versions/node/{{ vars[project][type].node.version }}/bin"
+capx_node_node_modules_dir: "{{ capx_node_bin_dir }}/node_modules/.bin"

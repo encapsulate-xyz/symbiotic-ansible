@@ -1,0 +1,8 @@
+---
+- name: Install othentic-cli npm module
+  ansible.builtin.npm:
+    path: "{{ capx_node_bin_dir }}"
+    name: "{{ symbiotic.capx_node.source_url }}"
+    version: "{{ symbiotic.capx_node.version }}"
+  environment:
+    PATH: "{{ capx_node_nodejs_dir }}:{{ ansible_env.PATH }}"

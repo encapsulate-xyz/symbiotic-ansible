@@ -1,0 +1,25 @@
+[Unit]
+Description=Capx Attester P2P Node
+
+[Service]
+User={{ service_identifier }}
+Group={{ service_identifier }}
+WorkingDirectory={{ capx_node_home_dir }}
+EnvironmentFile={{ capx_node_env_dir }}/{{ service_identifier }}.env
+EnvironmentFile={{ capx_node_env_dir }}/{{ service_identifier }}.secrets.env
+ExecStart=/bin/bash -c 'exec othentic-cli node attester \
+  "/ip4/$OTHENTIC_BOOTSTRAP_HOST/tcp/9876/p2p/$OTHENTIC_BOOTSTRAP_ID" \
+  --avs-webapi "http://$VALIDATION_SERVICE_IP" \
+  --l1-chain "$L1_CHAIN_CLI_CODE" \
+  --l2-chain "$L2_CHAIN_CLI_CODE" \
+  --p2p.datadir {{ capx_node_data_dir }} \
+  --metrics --metrics.port {{ symbiotic.capx_node.ports.metrics_port }}'
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ capx_node_log_file_path }}
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
