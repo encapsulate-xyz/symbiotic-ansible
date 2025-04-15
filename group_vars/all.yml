@@ -16,9 +16,20 @@ default_node_types:
 
 tmp_dir: /tmp
 
+nvm:
+  path: /opt/nvm
+
 symbiotic:
   kalypso:
     source_url: https://github.com/marlinprotocol/kalypso-oyster-attestation-verifier-risczero
     ports:
       prover_port: 3030
       metrics_port: 9999
+  capx_node:
+    source_url: "@othentic/othentic-cli"
+    ports:
+      metrics_port: 7070
+  capx_validation:
+    source_url: capxcloud/validation-service-testnet
+    ports:
+      listen_port: 4002
