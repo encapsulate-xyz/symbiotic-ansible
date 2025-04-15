@@ -1,0 +1,18 @@
+[Unit]
+Description=Capx Validation Service
+
+[Service]
+User={{ service_identifier }}
+Group={{ service_identifier }}
+WorkingDirectory={{ capx_validation_home_dir }}
+EnvironmentFile={{ capx_validation_env_dir }}/{{ service_identifier }}.env
+ExecStart={{ capx_validation_nodejs_dir }}/node {{ capx_validation_bin_dir }}/index.js
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ capx_validation_log_file_path }}
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

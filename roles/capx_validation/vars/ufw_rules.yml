@@ -1,0 +1,7 @@
+---
+capx_validation_ufw_rules:
+  - port: "{{ symbiotic.capx_validation.ports.listen_port }}"
+    proto: tcp
+    rule: allow
+    from: "{{ monitor_server_dns }}"
+    comment: listen

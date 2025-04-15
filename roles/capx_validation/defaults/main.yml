@@ -1,0 +1,19 @@
+---
+# maintains directories and paths
+capx_validation_home_dir: /opt/{{ service_identifier }}
+
+capx_validation_bin_dir: "{{ capx_validation_home_dir }}/bin"
+capx_validation_env_dir: "{{ capx_validation_home_dir }}/environment"
+capx_validation_log_dir: "{{ capx_validation_home_dir }}/log"
+
+capx_validation_directories:
+  - "{{ capx_validation_home_dir }}"
+  - "{{ capx_validation_bin_dir }}"
+  - "{{ capx_validation_env_dir }}"
+  - "{{ capx_validation_log_dir }}"
+
+capx_validation_log_file_path: "{{ capx_validation_log_dir }}/{{ service_identifier }}.log"
+
+capx_validation_environment_general_file_path: "{{ capx_validation_env_dir }}/{{ capx_validation_environment_general_file_name }}"
+
+capx_validation_nodejs_dir: "{{ nvm.path }}/versions/node/{{ vars[project][type].node.version }}/bin"

@@ -1,0 +1,30 @@
+---
+- name: Create capx validation service docker container and copy nodejs files
+  vars:
+    container_name: capx_validation
+  block:
+    - name: Create temporary capx validation service container for nodejs files extraction
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ symbiotic.capx_validation.source_url }}:{{ symbiotic.capx_validation.version }}"
+        state: present
+        recreate: true
+
+    - name: Copy capx validation service nodejs files
+      ansible.builtin.shell: >
+        docker cp {{ container_name }}:/usr/src/app/. {{ capx_validation_bin_dir }}
+      args:
+        executable: /bin/bash
+      register: copy_result
+      changed_when: copy_result.rc == 0
+      failed_when:
+        - copy_result.rc != 0
+        - "'No such container' in copy_result.stderr"
+      notify:
+        - Restart service
+
+  always:
+    - name: Remove capx validation service container
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        state: absent
