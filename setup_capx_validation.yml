@@ -17,8 +17,8 @@
       block:
         - name: Include environment setup tasks
           ansible.builtin.include_tasks: tasks/setup_environment.yml
-        # - name: Include docker installation task
-        #   ansible.builtin.include_tasks: roles/prepare/tasks/install_docker.yml
+        - name: Include docker installation task
+          ansible.builtin.include_tasks: roles/prepare/tasks/install_docker.yml
 
   tasks:
     - name: Run capx_validation role
