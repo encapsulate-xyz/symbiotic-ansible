@@ -1,0 +1,39 @@
+---
+- name: Include the network ufw vars file
+  ansible.builtin.include_vars:
+    file: vars/ufw_rules.yml
+
+- name: Apply UFW rules
+  ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
+  loop: "{{ capx_validation_ufw_rules }}"
+
+- name: Include user creation task
+  ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
+  vars:
+    home: "{{ capx_validation_home_dir }}"
+    directories: "{{ capx_validation_directories }}"
+    log_file_path: "{{ capx_validation_log_file_path }}"
+
+- name: Include copy_nodejs_files task
+  ansible.builtin.include_tasks: copy_nodejs_files.yml
+
+- name: Copy capx_validation environment file
+  ansible.builtin.template:
+    src: "{{ env }}/general.env.j2"
+    dest: "{{ capx_validation_environment_general_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy capx_validation systemd service file
+  ansible.builtin.template:
+    src: "{{ env }}/systemd.service.j2"
+    dest: /etc/systemd/system/{{ service_identifier }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload service
+    - Restart service

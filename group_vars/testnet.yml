@@ -3,3 +3,11 @@
 symbiotic:
   kalypso:
     version: package
+  capx_node:
+    version: 1.9.5
+    node:
+      version: v22.6.0
+  capx_validation:
+    version: 0.1.0
+    node:
+      version: v18.20.8

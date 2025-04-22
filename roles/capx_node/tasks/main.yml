@@ -5,14 +5,14 @@
 
 - name: Apply UFW rules
   ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
-  loop: "{{ kalypso_ufw_rules }}"
+  loop: "{{ capx_node_ufw_rules }}"
 
 - name: Include user creation task
   ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
   vars:
-    home: "{{ kalypso_home_dir }}"
-    directories: "{{ kalypso_directories }}"
-    log_file_path: "{{ kalypso_log_file_path }}"
+    home: "{{ capx_node_home_dir }}"
+    directories: "{{ capx_node_directories }}"
+    log_file_path: "{{ capx_node_log_file_path }}"
 
 - name: Include install binary task
   ansible.builtin.include_tasks: install_binary.yml
@@ -20,21 +20,21 @@
 - name: Fetch secrets environment file from HCP Vault and save to file
   ansible.builtin.include_tasks: tasks/get_and_save_vault_secret.yml
   vars:
-    vault_secret_source_path: "{{ project }}/{{ org }}/{{ type }}/{{ kalypso_environment_secrets_file_name }}"
-    secret_destination_path: "{{ kalypso_environment_secrets_file_path }}"
+    vault_secret_source_path: "{{ project }}/{{ org }}/{{ type }}/{{ capx_node_environment_secrets_file_name }}"
+    secret_destination_path: "{{ capx_node_environment_secrets_file_path }}"
     secret_type: environment
 
-- name: Copy kalypso environment file
+- name: Copy capx_node environment file
   ansible.builtin.template:
     src: "{{ env }}/general.env.j2"
-    dest: "{{ kalypso_environment_general_file_path }}"
+    dest: "{{ capx_node_environment_general_file_path }}"
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
     mode: "0644"
   notify:
     - Restart service
 
-- name: Copy kalypso systemd service file
+- name: Copy capx_node systemd service file
   ansible.builtin.template:
     src: "{{ env }}/systemd.service.j2"
     dest: /etc/systemd/system/{{ service_identifier }}.service

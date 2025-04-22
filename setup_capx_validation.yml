@@ -1,0 +1,32 @@
+---
+- name: Set up Capx Validation Service
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    allowed_node_types: [capx_validation]
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/vault.yml
+    - group_vars/default.yml
+    - group_vars/{{ env }}.yml
+
+  pre_tasks:
+    - name: Setup Pre Tasks
+      when: type in allowed_node_types
+      block:
+        - name: Include environment setup tasks
+          ansible.builtin.include_tasks: tasks/setup_environment.yml
+        - name: Include docker installation task
+          ansible.builtin.include_tasks: roles/prepare/tasks/install_docker.yml
+
+  tasks:
+    - name: Run capx_validation role
+      when: type in allowed_node_types
+      block:
+        - name: Include common handlers
+          ansible.builtin.include_role:
+            name: common
+        - name: Include capx_validation role
+          ansible.builtin.include_role:
+            name: capx_validation
