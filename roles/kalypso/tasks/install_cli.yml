@@ -18,7 +18,7 @@
     state: absent
 
 - name: Build cli binary
-  ansible.builtin.shell: cargo build --release --bin kalypso-cli
+  ansible.builtin.shell: rustup run {{ symbiotic.kalypso.rust.version }} cargo build --release --bin kalypso-cli
   args:
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
