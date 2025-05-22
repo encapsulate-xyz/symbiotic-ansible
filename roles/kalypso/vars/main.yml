@@ -6,3 +6,4 @@ kalypso_environment_secrets_file_name: "{{ service_identifier }}.secrets.env"
 kalypso_environment_general_file_name: "{{ service_identifier }}.env"
 
 kalypso_service_default_binary_name: kalypso-attestation-prover
+kalypso_cli_default_binary_name: kalypso-cli

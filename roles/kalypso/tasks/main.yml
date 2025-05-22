@@ -14,6 +14,9 @@
     directories: "{{ kalypso_directories }}"
     log_file_path: "{{ kalypso_log_file_path }}"
 
+- name: Include install cli task
+  ansible.builtin.include_tasks: install_cli.yml
+
 - name: Include install binary task
   ansible.builtin.include_tasks: install_binary.yml
 

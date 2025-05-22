@@ -5,3 +5,5 @@ symbiotic:
     version: mainnet
     rust:
       version: 1.85.0
+    cli:
+      version: mainnet
