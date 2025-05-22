@@ -26,6 +26,8 @@ rust:
 symbiotic:
   kalypso:
     source_url: https://github.com/marlinprotocol/kalypso-oyster-attestation-verifier-risczero
+    cli:
+      source_url: https://github.com/marlinprotocol/kalypso-unified
     ports:
       prover_port: 3030
       metrics_port: 9999

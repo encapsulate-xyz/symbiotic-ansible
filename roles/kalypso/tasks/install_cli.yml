@@ -1,0 +1,41 @@
+---
+- name: Ensure tmp directory exists
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}"
+    state: directory
+    mode: "1777"
+
+- name: Clone the repository to /tmp
+  ansible.builtin.git:
+    repo: "{{ symbiotic.kalypso.cli.source_url }}"
+    dest: "{{ tmp_dir }}/{{ project }}"
+    version: "{{ symbiotic.kalypso.cli.version }}"
+    force: true
+
+- name: Remove .cargo directory
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/{{ project }}/.cargo"
+    state: absent
+
+- name: Build cli binary
+  ansible.builtin.shell: cargo build --release --bin kalypso-cli
+  args:
+    chdir: "{{ tmp_dir }}/{{ project }}"
+    executable: /bin/bash
+    creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_cli_default_binary_name }}"
+  environment:
+    PATH: "{{ rust.path }}/bin:{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
+
+- name: Copy the built cli binary to the target directory
+  ansible.builtin.copy:
+    src: "{{ tmp_dir }}/{{ project }}/target/release/{{ kalypso_cli_default_binary_name }}"
+    dest: "{{ kalypso_bin_dir }}/{{ service_identifier }}-cli"
+    mode: "0755"
+    owner: root
+    group: root
+    remote_src: true
+
+- name: Clean up the temporary repository directory
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/{{ project }}"
+    state: absent
