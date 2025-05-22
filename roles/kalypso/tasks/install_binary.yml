@@ -13,7 +13,7 @@
     force: true
 
 - name: Build binary
-  ansible.builtin.shell: cargo build --release
+  ansible.builtin.shell: rustup run {{ symbiotic.kalypso.rust.version }} cargo build --release
   args:
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
@@ -23,7 +23,7 @@
   when: mode == "cpu"
 
 - name: Build binary to support gpu
-  ansible.builtin.shell: cargo build --release --features gpu
+  ansible.builtin.shell: rustup run {{ symbiotic.kalypso.rust.version }} cargo build --release --features gpu
   args:
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
