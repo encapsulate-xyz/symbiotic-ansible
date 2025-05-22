@@ -2,3 +2,5 @@
 collections:
   - name: community.hashi_vault
     version: 6.2.0
+  - name: community.general
+    version: 9.5.0

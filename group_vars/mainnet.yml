@@ -3,3 +3,5 @@
 symbiotic:
   kalypso:
     version: mainnet
+    rust:
+      version: 1.85.0
