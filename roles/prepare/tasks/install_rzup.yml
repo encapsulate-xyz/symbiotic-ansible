@@ -13,6 +13,8 @@
   args:
     creates: "{{ ansible_env.HOME }}/.risc0"
     executable: /bin/bash
+  environment:
+    PATH: "{{ rust.path }}/bin:{{ ansible_env.PATH }}"
 
 - name: Run rzup install
   ansible.builtin.shell: |
@@ -21,6 +23,8 @@
     executable: /bin/bash
   changed_when: false
   ignore_errors: true
+  environment:
+    PATH: "{{ rust.path }}/bin:{{ ansible_env.PATH }}"
 
 - name: Install C++ toolchain
   ansible.builtin.shell: |
@@ -28,6 +32,8 @@
   args:
     executable: /bin/bash
     creates: "{{ ansible_env.HOME }}/.risc0/cpp"
+  environment:
+    PATH: "{{ rust.path }}/bin:{{ ansible_env.PATH }}"
 
 - name: Clean up downloaded package
   ansible.builtin.file:
