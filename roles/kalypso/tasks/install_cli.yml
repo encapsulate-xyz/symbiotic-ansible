@@ -26,7 +26,7 @@
   environment:
     PATH: "{{ rust.path }}/bin:{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
 
-- name: Copy the built binaries to the target directory
+- name: Copy the built cli binary to the target directory
   ansible.builtin.copy:
     src: "{{ tmp_dir }}/{{ project }}/target/release/{{ kalypso_cli_default_binary_name }}"
     dest: "{{ kalypso_bin_dir }}/{{ service_identifier }}-cli"
