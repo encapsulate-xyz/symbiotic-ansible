@@ -3,6 +3,9 @@
   hosts: all
   become: true
   gather_facts: true
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/{{ env }}.yml
 
   tasks:
     - name: Include prepare role
