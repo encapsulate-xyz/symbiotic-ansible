@@ -27,7 +27,7 @@
   args:
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
-    creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
+    creates: "{{ tmp_dir }}/{{ project }}/target/release/{{ kalypso_service_default_binary_name }}"
   environment:
     PATH: "{{ rust.path }}/bin:{{ ansible_env.HOME }}/.risc0/bin:/usr/local/cuda/bin:{{ ansible_env.PATH }}"
   when: mode == "gpu"
