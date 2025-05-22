@@ -8,8 +8,6 @@
     - build-essential
     - curl
     - git
-    - cargo
-    - rustup
 
 - name: Include install_rzup task
   ansible.builtin.include_tasks: install_rzup.yml
