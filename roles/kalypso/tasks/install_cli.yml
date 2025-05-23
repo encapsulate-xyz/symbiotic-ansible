@@ -33,6 +33,8 @@
     creates: "{{ tmp_dir }}/{{ project }}/target/release/{{ kalypso_cli_default_binary_name }}"
   environment:
     PATH: "{{ rust.path }}/bin:{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
+    RUSTUP_HOME: "{{ rust.root }}/cargo"
+    CARGO_HOME: "{{ rust.root }}/cargo"
 
 - name: Copy the built cli binary to the target directory
   ansible.builtin.copy:

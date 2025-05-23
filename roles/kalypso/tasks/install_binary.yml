@@ -20,6 +20,8 @@
     creates: "{{ tmp_dir }}/{{ project }}/{{ kalypso_service_default_binary_name }}"
   environment:
     PATH: "{{ rust.path }}/bin:{{ ansible_env.HOME }}/.risc0/bin:{{ ansible_env.PATH }}"
+    RUSTUP_HOME: "{{ rust.root }}/cargo"
+    CARGO_HOME: "{{ rust.root }}/cargo"
   when: mode == "cpu"
 
 - name: Build binary to support gpu
@@ -30,6 +32,8 @@
     creates: "{{ tmp_dir }}/{{ project }}/target/release/{{ kalypso_service_default_binary_name }}"
   environment:
     PATH: "{{ rust.path }}/bin:{{ ansible_env.HOME }}/.risc0/bin:/usr/local/cuda/bin:{{ ansible_env.PATH }}"
+    RUSTUP_HOME: "{{ rust.root }}/cargo"
+    CARGO_HOME: "{{ rust.root }}/cargo"
   when: mode == "gpu"
 
 - name: Copy the built binaries to the target directory
