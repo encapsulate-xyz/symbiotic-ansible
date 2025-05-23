@@ -17,8 +17,16 @@
     path: "{{ tmp_dir }}/{{ project }}/.cargo"
     state: absent
 
+- name: Set default toolchain version
+  ansible.builtin.command:
+    cmd: rustup default "{{ symbiotic.kalypso.rust.version }}"
+  environment:
+    RUSTUP_HOME: "{{ rust.root }}/cargo"
+    CARGO_HOME: "{{ rust.root }}/cargo"
+    PATH: "{{ ansible_env.PATH }}:{{ rust.root }}/cargo/bin"
+
 - name: Build cli binary
-  ansible.builtin.shell: rustup run {{ symbiotic.kalypso.rust.version }} cargo build --release --bin kalypso-cli
+  ansible.builtin.shell: cargo build --release --bin kalypso-cli
   args:
     chdir: "{{ tmp_dir }}/{{ project }}"
     executable: /bin/bash
