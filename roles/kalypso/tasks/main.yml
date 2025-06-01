@@ -7,6 +7,12 @@
   ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
   loop: "{{ kalypso_ufw_rules }}"
 
+- name: Add user to the docker group
+  ansible.builtin.user:
+    name: "{{ service_identifier }}"
+    groups: docker
+    append: yes
+
 - name: Include user creation task
   ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
   vars:
