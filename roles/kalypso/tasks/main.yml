@@ -7,18 +7,28 @@
   ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
   loop: "{{ kalypso_ufw_rules }}"
 
-- name: Add user to the docker group
-  ansible.builtin.user:
-    name: "{{ service_identifier }}"
-    groups: docker
-    append: yes
-
 - name: Include user creation task
   ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
   vars:
     home: "{{ kalypso_home_dir }}"
     directories: "{{ kalypso_directories }}"
     log_file_path: "{{ kalypso_log_file_path }}"
+
+- name: Add user to the docker group
+  ansible.builtin.user:
+    name: "{{ service_identifier }}"
+    groups: docker
+    append: yes
+
+- name: Copy kalypso environment file
+  ansible.builtin.template:
+    src: "{{ env }}/general.env.j2"
+    dest: "{{ kalypso_environment_general_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+  notify:
+    - Restart service
 
 - name: Include install cli task
   ansible.builtin.include_tasks: install_cli.yml
@@ -32,16 +42,6 @@
     vault_secret_source_path: "{{ project }}/{{ org }}/{{ type }}/{{ kalypso_environment_secrets_file_name }}"
     secret_destination_path: "{{ kalypso_environment_secrets_file_path }}"
     secret_type: environment
-
-- name: Copy kalypso environment file
-  ansible.builtin.template:
-    src: "{{ env }}/general.env.j2"
-    dest: "{{ kalypso_environment_general_file_path }}"
-    owner: "{{ service_identifier }}"
-    group: "{{ service_identifier }}"
-    mode: "0644"
-  notify:
-    - Restart service
 
 - name: Copy kalypso systemd service file
   ansible.builtin.template:
