@@ -30,7 +30,8 @@ This playbook relies on HashiCorp Vault to securely retrieve sensitive files, su
 The playbook dynamically retrieves private validator keys and node keys from HashiCorp Vault. The keys are expected to follow a structured path format:
 `<environment>/<project>/<organization>/<type>/<file_name>`
 For example:
-`testnet/axelar/encapsulate/kalypso/.secrets.env`
+- [testnet/symbiotic/encapsulate/capx-node/symbiotic-capx-node.secrets.env](roles/capx-node/templates/secrets.env.example)
+- [testnet/symbiotic/encapsulate/kalypso/symbiotic-kalypso.secrets.env](roles/kalypso/templates/secrets.env.example)
 
 This structure ensures easy organization and secure retrieval of secrets.
 
