@@ -1,0 +1,5 @@
+# This file contains ignores rule violations for ansible-lint
+roles/capx_validation/tasks/copy_nodejs_files.yml var-naming[no-role-prefix]
+roles/kalypso/tasks/install_cli.yml no-changed-when
+roles/kalypso/tasks/main.yml yaml[truthy]
+roles/prepare/tasks/install_rzup.yml ignore-errors
