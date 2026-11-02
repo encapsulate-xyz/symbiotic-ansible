@@ -30,3 +30,15 @@
         - name: Include capx_validation role
           ansible.builtin.include_role:
             name: capx_validation
+            public: true
+
+  post_tasks:
+    - name: Verify capx validation service
+      when: type in allowed_node_types
+      block:
+        # No version check: the files come from an image tag that the app itself doesn't report
+        - name: Include verify service task
+          ansible.builtin.include_tasks: tasks/verify_service.yml
+          vars:
+            log_file_path: "{{ capx_validation_log_file_path }}"
+            health_url: "http://localhost:{{ symbiotic.capx_validation.ports.listen_port }}/health"
