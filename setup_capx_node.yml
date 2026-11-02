@@ -28,3 +28,16 @@
         - name: Include capx_node role
           ansible.builtin.include_role:
             name: capx_node
+            public: true
+
+  post_tasks:
+    - name: Verify capx node
+      when: type in allowed_node_types
+      block:
+        # othentic-cli needs node from nvm on its PATH, so read the version from the installed package instead
+        - name: Include verify service task
+          ansible.builtin.include_tasks: tasks/verify_service.yml
+          vars:
+            log_file_path: "{{ capx_node_log_file_path }}"
+            version_command: grep -m 1 '"version"' {{ capx_node_bin_dir }}/node_modules/@othentic/othentic-cli/package.json
+            health_url: "http://localhost:{{ symbiotic.capx_node.ports.metrics_port }}/metrics"

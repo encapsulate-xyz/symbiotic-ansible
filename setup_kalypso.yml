@@ -27,3 +27,15 @@
         - name: Include kalypso role
           ansible.builtin.include_role:
             name: kalypso
+            public: true
+
+  post_tasks:
+    - name: Verify kalypso node
+      when: type in allowed_node_types
+      block:
+        # No version check: kalypso is built from a branch (mainnet, package), not a version
+        - name: Include verify service task
+          ansible.builtin.include_tasks: tasks/verify_service.yml
+          vars:
+            log_file_path: "{{ kalypso_log_file_path }}"
+            health_url: "http://localhost:{{ symbiotic.kalypso.ports.prover_port }}/api/test"
